@@ -89,7 +89,10 @@
         margin: 0;
         color: #333;
         line-height: 1.5;
+        white-space: pre-wrap; /* Menjaga format baris baru jika ada */
       }
+
+      /* Style tombol Hapus */
       .delete-btn {
         position: absolute;
         right: 12px;
@@ -100,6 +103,20 @@
         opacity: 0.6;
       }
       .delete-btn:hover {
+        opacity: 1;
+      }
+
+      /* Style tombol Edit Baru */
+      .edit-btn {
+        position: absolute;
+        right: 35px; /* Posisikan di sebelah kiri tombol hapus */
+        top: 13px;
+        color: #ffc107; /* Warna kuning untuk peringatan/edit */
+        cursor: pointer;
+        font-size: 16px;
+        opacity: 0.6;
+      }
+      .edit-btn:hover {
         opacity: 1;
       }
     </style>
@@ -168,12 +185,13 @@
         );
 
         filteredNotes.forEach((note, index) => {
-          // Kita cari index asli di array 'notes' agar fungsi hapus tidak salah hapus
+          // Kita cari index asli di array 'notes' agar fungsi hapus/edit tidak salah sasaran
           const originalIndex = notes.indexOf(note);
 
           noteList.innerHTML += `
                 <div class="note-item">
-                    <span class="delete-btn" onclick="deleteNote(${originalIndex})">&times;</span>
+                    <span class="edit-btn" onclick="editNote(${originalIndex})" title="Edit Catatan">✏️</span>
+                    <span class="delete-btn" onclick="deleteNote(${originalIndex})" title="Hapus Catatan">&times;</span>
                     <small>${note.date}</small>
                     <p>${note.text}</p>
                 </div>
@@ -193,6 +211,24 @@
           notes.splice(index, 1);
           localStorage.setItem("myNotes", JSON.stringify(notes));
           displayNotes();
+        }
+      }
+
+      // Fitur Edit Baru
+      function editNote(index) {
+        const notes = JSON.parse(localStorage.getItem("myNotes") || "[]");
+
+        // Memunculkan popup prompt dengan teks catatan saat ini
+        const updatedText = prompt("Edit catatan Anda:", notes[index].text);
+
+        // Jika user menekan OK dan teks tidak kosong
+        if (updatedText !== null && updatedText.trim() !== "") {
+          notes[index].text = updatedText;
+          // Opsional: Memperbarui tanggal saat diedit
+          notes[index].date = new Date().toLocaleString("id-ID") + " (Diedit)";
+
+          localStorage.setItem("myNotes", JSON.stringify(notes));
+          displayNotes(); // Render ulang tampilan
         }
       }
     </script>

@@ -3,234 +3,648 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>website catatan harian</title>
+    <title>Catatan Harianku</title>
     <style>
-      /* Bagian CSS untuk Tampilan */
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
       body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #eef2f7;
-        padding: 20px;
+        font-family: "Poppins", sans-serif;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         display: flex;
         justify-content: center;
+        align-items: flex-start;
+        padding: 30px 16px 60px;
       }
+
       .container {
         width: 100%;
-        max-width: 450px;
-        background: white;
-        padding: 25px;
-        border-radius: 12px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        max-width: 520px;
+        animation: fadeInDown 0.5s ease;
       }
-      h2 {
+
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ── Header ── */
+      .header {
         text-align: center;
-        color: #2c3e50;
+        margin-bottom: 24px;
+        color: white;
+      }
+      .header .icon {
+        font-size: 48px;
+        display: block;
+        margin-bottom: 6px;
+        filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.25));
+      }
+      .header h1 {
+        font-size: 26px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+      }
+      .header p {
+        font-size: 13px;
+        opacity: 0.85;
+        margin-top: 4px;
+      }
+
+      /* ── Card utama ── */
+      .card {
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 20px;
+        padding: 28px 24px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+      }
+
+      /* ── Stats ── */
+      .stats {
+        display: flex;
+        gap: 12px;
         margin-bottom: 20px;
       }
-
-      /* Style untuk Search Bar */
-      .search-box {
-        margin-bottom: 15px;
-        width: 100%;
-        padding: 10px;
-        border: 2px solid #007bff;
-        border-radius: 8px;
-        box-sizing: border-box;
-        font-size: 14px;
-        outline: none;
+      .stat-box {
+        flex: 1;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-radius: 12px;
+        padding: 12px;
+        text-align: center;
+        color: white;
+      }
+      .stat-box .num {
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 1;
+      }
+      .stat-box .lbl {
+        font-size: 11px;
+        opacity: 0.9;
+        margin-top: 4px;
       }
 
+      /* ── Search ── */
+      .search-wrapper {
+        position: relative;
+        margin-bottom: 16px;
+      }
+      .search-wrapper .search-icon {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #aaa;
+        font-style: normal;
+        font-size: 15px;
+      }
+      .search-box {
+        width: 100%;
+        padding: 11px 14px 11px 40px;
+        border: 2px solid #e8e8e8;
+        border-radius: 12px;
+        font-size: 14px;
+        font-family: "Poppins", sans-serif;
+        outline: none;
+        transition: border-color 0.25s;
+        background: #f9f9ff;
+      }
+      .search-box:focus {
+        border-color: #667eea;
+        background: white;
+      }
+
+      /* ── Input area ── */
+      .input-section {
+        background: #f5f5ff;
+        border-radius: 14px;
+        padding: 16px;
+        margin-bottom: 16px;
+      }
+      .input-section label {
+        font-size: 13px;
+        font-weight: 600;
+        color: #555;
+        display: block;
+        margin-bottom: 8px;
+      }
       textarea {
         width: 100%;
-        height: 100px;
+        height: 110px;
         padding: 12px;
-        border: 1px solid #ced4da;
-        border-radius: 8px;
-        box-sizing: border-box;
-        resize: none;
+        border: 2px solid #e0e0f0;
+        border-radius: 10px;
         font-size: 14px;
+        font-family: "Poppins", sans-serif;
+        resize: none;
+        outline: none;
+        transition: border-color 0.25s;
+        background: white;
+        color: #333;
       }
-      button {
+      textarea:focus {
+        border-color: #667eea;
+      }
+      .char-count {
+        font-size: 11px;
+        color: #aaa;
+        text-align: right;
+        margin-top: 5px;
+      }
+
+      /* ── Tombol simpan ── */
+      .btn-save {
         width: 100%;
-        padding: 12px;
-        background-color: #007bff;
+        padding: 13px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
         color: white;
         border: none;
-        border-radius: 8px;
+        border-radius: 12px;
         cursor: pointer;
-        margin-top: 15px;
-        font-weight: bold;
-        transition: 0.3s;
+        font-size: 15px;
+        font-weight: 600;
+        font-family: "Poppins", sans-serif;
+        letter-spacing: 0.3px;
+        transition:
+          opacity 0.25s,
+          transform 0.15s;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.45);
       }
-      button:hover {
-        background-color: #0056b3;
+      .btn-save:hover {
+        opacity: 0.92;
+        transform: translateY(-1px);
       }
+      .btn-save:active {
+        transform: translateY(0);
+      }
+
+      /* ── Divider ── */
+      .divider {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 22px 0 16px;
+        color: #bbb;
+        font-size: 12px;
+        font-weight: 500;
+      }
+      .divider::before,
+      .divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: #ebebeb;
+      }
+
+      /* ── Note list ── */
       .note-list {
-        margin-top: 25px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
       }
+
       .note-item {
-        background: #fff;
-        padding: 15px;
-        border-left: 5px solid #007bff;
-        margin-bottom: 12px;
+        background: white;
+        padding: 16px;
+        border-radius: 14px;
+        border-left: 5px solid #667eea;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
         position: relative;
-        border-radius: 6px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-        transition: transform 0.2s;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+        animation: slideIn 0.3s ease;
+      }
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateX(-12px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
       }
       .note-item:hover {
-        transform: scale(1.02);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
       }
-      .note-item small {
-        color: #888;
-        display: block;
-        margin-bottom: 5px;
+      .note-meta {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 8px;
+      }
+      .note-meta .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        flex-shrink: 0;
+      }
+      .note-meta small {
+        font-size: 11px;
+        color: #aaa;
+        font-weight: 500;
       }
       .note-item p {
         margin: 0;
         color: #333;
-        line-height: 1.5;
-        white-space: pre-wrap; /* Menjaga format baris baru jika ada */
+        line-height: 1.65;
+        font-size: 14px;
+        white-space: pre-wrap;
+        padding-right: 52px;
       }
 
-      /* Style tombol Hapus */
-      .delete-btn {
+      /* ── Tombol aksi note ── */
+      .note-actions {
         position: absolute;
         right: 12px;
         top: 12px;
-        color: #dc3545;
+        display: flex;
+        gap: 6px;
+      }
+      .action-btn {
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        border: none;
         cursor: pointer;
-        font-size: 18px;
-        opacity: 0.6;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition:
+          background 0.2s,
+          transform 0.15s;
+        background: transparent;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+        width: auto;
       }
-      .delete-btn:hover {
-        opacity: 1;
-      }
-
-      /* Style tombol Edit Baru */
       .edit-btn {
-        position: absolute;
-        right: 35px; /* Posisikan di sebelah kiri tombol hapus */
-        top: 13px;
-        color: #ffc107; /* Warna kuning untuk peringatan/edit */
-        cursor: pointer;
-        font-size: 16px;
-        opacity: 0.6;
+        color: #f59e0b;
+        background: #fffbeb;
+        border-radius: 8px;
+        padding: 4px 7px;
+      }
+      .delete-btn {
+        color: #ef4444;
+        background: #fef2f2;
+        border-radius: 8px;
+        padding: 4px 7px;
       }
       .edit-btn:hover {
-        opacity: 1;
+        background: #fef3c7;
+        transform: scale(1.1);
+      }
+      .delete-btn:hover {
+        background: #fee2e2;
+        transform: scale(1.1);
+      }
+
+      /* ── Empty / not found ── */
+      .empty-state {
+        text-align: center;
+        padding: 30px 0 10px;
+        color: #bbb;
+      }
+      .empty-state .empty-icon {
+        font-size: 40px;
+        display: block;
+        margin-bottom: 8px;
+      }
+      .empty-state p {
+        font-size: 13px;
+      }
+
+      /* ── Modal Edit ── */
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        z-index: 999;
+        justify-content: center;
+        align-items: center;
+        padding: 16px;
+        animation: fadeIn 0.2s ease;
+      }
+      .modal-overlay.active {
+        display: flex;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .modal {
+        background: white;
+        border-radius: 20px;
+        padding: 28px 24px;
+        width: 100%;
+        max-width: 460px;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+        animation: popIn 0.25s ease;
+      }
+      @keyframes popIn {
+        from {
+          transform: scale(0.9);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      .modal h3 {
+        font-size: 17px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 16px;
+      }
+      .modal textarea {
+        height: 120px;
+        margin-bottom: 6px;
+      }
+      .modal-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 16px;
+      }
+      .btn-cancel {
+        flex: 1;
+        padding: 12px;
+        border: 2px solid #e0e0e0;
+        border-radius: 12px;
+        background: white;
+        color: #666;
+        font-size: 14px;
+        font-weight: 600;
+        font-family: "Poppins", sans-serif;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .btn-cancel:hover {
+        background: #f5f5f5;
+      }
+      .btn-update {
+        flex: 1;
+        padding: 12px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 14px;
+        font-weight: 600;
+        font-family: "Poppins", sans-serif;
+        cursor: pointer;
+        transition: opacity 0.2s;
+      }
+      .btn-update:hover {
+        opacity: 0.88;
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <h2>Catatan Harianku</h2>
+      <!-- Header -->
+      <div class="header">
+        <span class="icon">📓</span>
+        <h1>Catatan Harianku</h1>
+        <p>Simpan rencana &amp; kegiatan harianmu</p>
+      </div>
 
-      <input
-        type="text"
-        id="searchInput"
-        class="search-box"
-        placeholder="🔍 Cari catatan..."
-        onkeyup="displayNotes()"
-      />
+      <!-- Card utama -->
+      <div class="card">
+        <!-- Stats -->
+        <div class="stats">
+          <div class="stat-box">
+            <div class="num" id="totalCount">0</div>
+            <div class="lbl">Total Catatan</div>
+          </div>
+          <div class="stat-box">
+            <div class="num" id="todayCount">0</div>
+            <div class="lbl">Catatan Hari Ini</div>
+          </div>
+        </div>
 
-      <textarea
-        id="noteInput"
-        placeholder="Tulis rencana atau kegiatan hari ini..."
-      ></textarea>
-      <button onclick="addNote()">Simpan Catatan</button>
+        <!-- Search -->
+        <div class="search-wrapper">
+          <i class="search-icon">🔍</i>
+          <input
+            type="text"
+            id="searchInput"
+            class="search-box"
+            placeholder="Cari catatan..."
+            oninput="displayNotes()"
+          />
+        </div>
 
-      <div id="noteList" class="note-list"></div>
+        <!-- Input baru -->
+        <div class="input-section">
+          <label for="noteInput">✍️ Catatan Baru</label>
+          <textarea
+            id="noteInput"
+            placeholder="Tulis rencana atau kegiatan hari ini..."
+            oninput="updateCharCount()"
+            maxlength="500"
+          ></textarea>
+          <div class="char-count"><span id="charCount">0</span> / 500</div>
+        </div>
+
+        <button class="btn-save" onclick="addNote()">✚ Simpan Catatan</button>
+
+        <div class="divider">Catatan Tersimpan</div>
+
+        <div id="noteList" class="note-list"></div>
+      </div>
+    </div>
+
+    <!-- Modal Edit -->
+    <div class="modal-overlay" id="editModal">
+      <div class="modal">
+        <h3>✏️ Edit Catatan</h3>
+        <textarea
+          id="editInput"
+          maxlength="500"
+          oninput="updateEditCharCount()"
+        ></textarea>
+        <div class="char-count"><span id="editCharCount">0</span> / 500</div>
+        <div class="modal-actions">
+          <button class="btn-cancel" onclick="closeModal()">Batal</button>
+          <button class="btn-update" onclick="saveEdit()">
+            Simpan Perubahan
+          </button>
+        </div>
+      </div>
     </div>
 
     <script>
-      /* Bagian JavaScript untuk Logika */
+      let editingIndex = -1;
 
       document.addEventListener("DOMContentLoaded", displayNotes);
 
+      /* ── Char counter ── */
+      function updateCharCount() {
+        const len = document.getElementById("noteInput").value.length;
+        document.getElementById("charCount").textContent = len;
+      }
+      function updateEditCharCount() {
+        const len = document.getElementById("editInput").value.length;
+        document.getElementById("editCharCount").textContent = len;
+      }
+
+      /* ── Tambah catatan ── */
       function addNote() {
         const noteInput = document.getElementById("noteInput");
-        const noteText = noteInput.value;
+        const noteText = noteInput.value.trim();
 
-        if (noteText.trim() === "") {
-          alert("Harap isi catatan terlebih dahulu!");
+        if (noteText === "") {
+          noteInput.focus();
+          noteInput.style.borderColor = "#ef4444";
+          setTimeout(() => (noteInput.style.borderColor = ""), 1200);
           return;
         }
 
         const notes = JSON.parse(localStorage.getItem("myNotes") || "[]");
-
-        const newNote = {
+        notes.unshift({
           text: noteText,
           date: new Date().toLocaleString("id-ID"),
-        };
-
-        notes.unshift(newNote);
+        });
         localStorage.setItem("myNotes", JSON.stringify(notes));
 
         noteInput.value = "";
+        updateCharCount();
         displayNotes();
       }
 
+      /* ── Tampilkan catatan ── */
       function displayNotes() {
         const noteList = document.getElementById("noteList");
         const searchText = document
           .getElementById("searchInput")
-          .value.toLowerCase(); // Ambil input pencarian
+          .value.toLowerCase();
         const notes = JSON.parse(localStorage.getItem("myNotes") || "[]");
+
+        /* update stats */
+        const todayStr = new Date().toLocaleDateString("id-ID");
+        const todayNotes = notes.filter(
+          (n) =>
+            n.date.startsWith(todayStr) ||
+            n.date.includes(todayStr.split("/").reverse().join("/")),
+        );
+        document.getElementById("totalCount").textContent = notes.length;
+        document.getElementById("todayCount").textContent = notes.filter(
+          (n) => {
+            const d = new Date();
+            const ds = d.toLocaleDateString("id-ID");
+            return (
+              n.date.includes(ds.split("/")[0]) &&
+              n.date.includes(ds.split("/")[1])
+            );
+          },
+        ).length;
 
         noteList.innerHTML = "";
 
-        // Filter catatan berdasarkan teks pencarian
-        const filteredNotes = notes.filter((note) =>
-          note.text.toLowerCase().includes(searchText),
+        const filteredNotes = notes.filter((n) =>
+          n.text.toLowerCase().includes(searchText),
         );
 
-        filteredNotes.forEach((note, index) => {
-          // Kita cari index asli di array 'notes' agar fungsi hapus/edit tidak salah sasaran
-          const originalIndex = notes.indexOf(note);
+        if (filteredNotes.length === 0) {
+          noteList.innerHTML = `
+            <div class="empty-state">
+              <span class="empty-icon">${searchText ? "🔎" : "📭"}</span>
+              <p>${searchText ? "Catatan tidak ditemukan..." : "Belum ada catatan. Yuk mulai menulis!"}</p>
+            </div>`;
+          return;
+        }
 
+        filteredNotes.forEach((note) => {
+          const originalIndex = notes.indexOf(note);
+          const escapedText = note.text
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;");
           noteList.innerHTML += `
-                <div class="note-item">
-                    <span class="edit-btn" onclick="editNote(${originalIndex})" title="Edit Catatan">✏️</span>
-                    <span class="delete-btn" onclick="deleteNote(${originalIndex})" title="Hapus Catatan">&times;</span>
-                    <small>${note.date}</small>
-                    <p>${note.text}</p>
-                </div>
-            `;
+            <div class="note-item">
+              <div class="note-actions">
+                <button class="action-btn edit-btn"   onclick="openEditModal(${originalIndex})" title="Edit">✏️</button>
+                <button class="action-btn delete-btn" onclick="deleteNote(${originalIndex})"    title="Hapus">🗑️</button>
+              </div>
+              <div class="note-meta">
+                <span class="dot"></span>
+                <small>${note.date}</small>
+              </div>
+              <p>${escapedText}</p>
+            </div>`;
+        });
+      }
+
+      /* ── Hapus catatan ── */
+      function deleteNote(index) {
+        if (!confirm("Hapus catatan ini?")) return;
+        const notes = JSON.parse(localStorage.getItem("myNotes") || "[]");
+        notes.splice(index, 1);
+        localStorage.setItem("myNotes", JSON.stringify(notes));
+        displayNotes();
+      }
+
+      /* ── Modal Edit ── */
+      function openEditModal(index) {
+        editingIndex = index;
+        const notes = JSON.parse(localStorage.getItem("myNotes") || "[]");
+        const editInput = document.getElementById("editInput");
+        editInput.value = notes[index].text;
+        updateEditCharCount();
+        document.getElementById("editModal").classList.add("active");
+        editInput.focus();
+      }
+      function closeModal() {
+        document.getElementById("editModal").classList.remove("active");
+        editingIndex = -1;
+      }
+      function saveEdit() {
+        const updatedText = document.getElementById("editInput").value.trim();
+        if (updatedText === "" || editingIndex < 0) return;
+        const notes = JSON.parse(localStorage.getItem("myNotes") || "[]");
+        notes[editingIndex].text = updatedText;
+        notes[editingIndex].date =
+          new Date().toLocaleString("id-ID") + " (Diedit)";
+        localStorage.setItem("myNotes", JSON.stringify(notes));
+        closeModal();
+        displayNotes();
+      }
+
+      /* Tutup modal jika klik di luar */
+      document
+        .getElementById("editModal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) closeModal();
         });
 
-        // Pesan jika hasil cari tidak ditemukan
-        if (filteredNotes.length === 0 && searchText !== "") {
-          noteList.innerHTML =
-            "<p style='text-align:center; color:#888;'>Catatan tidak ditemukan...</p>";
-        }
-      }
-
-      function deleteNote(index) {
-        if (confirm("Hapus catatan ini?")) {
-          const notes = JSON.parse(localStorage.getItem("myNotes") || "[]");
-          notes.splice(index, 1);
-          localStorage.setItem("myNotes", JSON.stringify(notes));
-          displayNotes();
-        }
-      }
-
-      // Fitur Edit Baru
-      function editNote(index) {
-        const notes = JSON.parse(localStorage.getItem("myNotes") || "[]");
-
-        // Memunculkan popup prompt dengan teks catatan saat ini
-        const updatedText = prompt("Edit catatan Anda:", notes[index].text);
-
-        // Jika user menekan OK dan teks tidak kosong
-        if (updatedText !== null && updatedText.trim() !== "") {
-          notes[index].text = updatedText;
-          // Opsional: Memperbarui tanggal saat diedit
-          notes[index].date = new Date().toLocaleString("id-ID") + " (Diedit)";
-
-          localStorage.setItem("myNotes", JSON.stringify(notes));
-          displayNotes(); // Render ulang tampilan
-        }
-      }
+      /* Enter untuk simpan catatan baru */
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") closeModal();
+      });
     </script>
   </body>
 </html>
